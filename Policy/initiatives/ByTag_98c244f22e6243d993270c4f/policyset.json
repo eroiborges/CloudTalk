@@ -1,0 +1,65 @@
+{
+ "properties": {
+  "displayName": "ByTag",
+  "policyType": "Custom",
+  "metadata": {
+   "category": "CustomExtension",
+   "version": "1",
+   "createdBy": "81eac991-1387-4919-9172-7a6728f4294f",
+   "createdOn": "2020-12-17T14:54:39.1305032Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "Tagname": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Tag Name"
+    },
+    "defaultValue": "env"
+   },
+   "Tagvalue": {
+    "type": "Array",
+    "metadata": {
+     "displayName": "Tag Value"
+    },
+    "defaultValue": [
+     "QA",
+     "PRD"
+    ]
+   }
+  },
+  "policyDefinitions": [
+   {
+    "policyDefinitionReferenceId": "DefaultExtensionbyTag_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/ab3bf950-3a2a-4efc-a1ef-aa4cb708d66c/providers/Microsoft.Authorization/policyDefinitions/70e6e993-b659-4c51-9ee3-999a9f832cb0",
+    "parameters": {
+     "TagName": {
+      "value": "[parameters('Tagname')]"
+     },
+     "TagValue": {
+      "value": "[parameters('Tagvalue')]"
+     }
+    },
+    "groupNames": []
+   },
+   {
+    "policyDefinitionReferenceId": "CustomExtensionbyTag_1",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/ab3bf950-3a2a-4efc-a1ef-aa4cb708d66c/providers/Microsoft.Authorization/policyDefinitions/86cafb26-7d20-49c4-8a85-734eaf408caf",
+    "parameters": {
+     "TagName": {
+      "value": "[parameters('Tagname')]"
+     },
+     "TagValue": {
+      "value": "[parameters('Tagvalue')]"
+     }
+    },
+    "groupNames": []
+   }
+  ],
+  "policyDefinitionGroups": []
+ },
+ "id": "/providers/Microsoft.Management/managementGroups/ab3bf950-3a2a-4efc-a1ef-aa4cb708d66c/providers/Microsoft.Authorization/policySetDefinitions/98c244f22e6243d993270c4f",
+ "type": "Microsoft.Authorization/policySetDefinitions",
+ "name": "98c244f22e6243d993270c4f"
+}
