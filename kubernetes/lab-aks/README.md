@@ -66,7 +66,7 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
 `bash linux-vm.sh vmrg k8svm eastus2 k8slab-share 2`
 
 
-### Commandos uteis do setup do Kubernetes nas VMs ###
+### Commandos uteis do setup do Kubernetes nas VMs (Demo video Cloud Talk)
 
 1. ### Resolução estatica para cluster01.k8slab.local ###
    sudo /bin/bash -c "echo 10.150.0.132 cluster01.k8slab.local > /etc/hosts"
