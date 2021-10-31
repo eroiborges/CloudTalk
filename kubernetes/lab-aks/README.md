@@ -64,3 +64,25 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
 
 ### Exemplo ###
 `bash linux-vm.sh vmrg k8svm eastus2 k8slab-share 2`
+
+
+### Commandos uteis do setup do Kubernetes nas VMs ###
+
+1. ### Resolução estatica para cluster01.k8slab.local ###
+   sudo /bin/bash -c "echo 10.150.0.132 cluster01.k8slab.local > /etc/hosts"
+
+2. ### instalar kubeadm, kubelet e kubectl e com opcao de escolher uma versao diferente
+    https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+    sudo apt-cache show kubeadm | grep -i version | less
+    sudo apt-get update && sudo apt-get install -y kubeadm=1.21.x-00 kubelet=1.21.x-00 kubectl=1.21.x-00 && sudo apt-mark hold kubeadm kubelet kubectl
+
+3. ### instalar o containerd ###
+    https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+    sudo apt-get update && sudo apt install containerd
+
+4. ### Exemplo de Kubeadm init para network flannel
+    sudo kubeadm init --control-plane-endpoint cluster01.k8slab.local:6443 --upload-certs --pod-network-cidr=10.244.0.0/16
+
+5. ## Setup Flannel ###
+    kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+

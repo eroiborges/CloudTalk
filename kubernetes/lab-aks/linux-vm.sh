@@ -41,7 +41,7 @@ export sship=$(az resource show --ids $publicipid -o json --query properties.ipA
 echo -n "SSH para o IP $sship"
 
 ## Copy SSH Keys to Masternode
-scp ~/.ssh/id_rsa* $sship:~/.ssh/ -o "StrictHostKeyChecking no"
+scp -o "StrictHostKeyChecking no" ~/.ssh/id_rsa* $sship:~/.ssh/
 
 ## SSH to Masternode
 ssh $sship -o "StrictHostKeyChecking no"
