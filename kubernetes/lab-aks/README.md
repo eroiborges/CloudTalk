@@ -83,6 +83,6 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
 4. ### Exemplo de Kubeadm init para network flannel
     sudo kubeadm init --control-plane-endpoint cluster01.k8slab.local:6443 --upload-certs --pod-network-cidr=10.244.0.0/16
 
-5. ## Setup Flannel ###
+5. ### Setup Flannel ###
     kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
 
