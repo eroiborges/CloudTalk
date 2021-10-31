@@ -12,7 +12,7 @@ else
 
 resourcegroupname="$1"
 datacenter="$2"
-export myip=$(curl -k ifconfig.me)
+export myip=$(curl -s -k ifconfig.me)
 
 
 ## Resource Group
