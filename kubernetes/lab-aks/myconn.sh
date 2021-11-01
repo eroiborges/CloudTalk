@@ -1,13 +1,13 @@
 case $1 in
    "lbip") az network public-ip list | grep kube-ip | awk '{print $4}';;
-   "myip") curl -s -k ifconfig.me;;
+   "myip") printf "$(curl -s -k ifconfig.me)\n";;
    "updatensg") 
       IP1="$(az network nsg list -o tsv --query "[?name=='kube-nsg'].{IP:securityRules[0].sourceAddressPrefix}")"
       IP2="$(curl -s -k ifconfig.me)"
 
       if [[ $IP1 = $IP2 ]];
       then
-        echo "seu IP:$IP1 é o IP liberado na NSG"
+        echo "seu IP $IP1 é o IP liberado na NSG"
       else
         echo "Ajustando IP....."
         rgname="$(az network nsg list -o tsv --query "[?name=='kube-nsg'].{RG:resourceGroup}")"
