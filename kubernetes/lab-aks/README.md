@@ -73,11 +73,13 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
 
 2. ### instalar kubeadm, kubelet e kubectl e com opcao de escolher uma versao diferente
     https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+    
     sudo apt-cache show kubeadm | grep -i version | less
     sudo apt-get update && sudo apt-get install -y kubeadm=1.21.x-00 kubelet=1.21.x-00 kubectl=1.21.x-00 && sudo apt-mark hold kubeadm kubelet kubectl
 
 3. ### instalar o containerd ###
     https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+    
     sudo apt-get update && sudo apt install containerd
 
 4. ### Exemplo de Kubeadm init para network flannel
