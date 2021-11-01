@@ -75,6 +75,7 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
     https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
     
     sudo apt-cache show kubeadm | grep -i version | less
+    
     sudo apt-get update && sudo apt-get install -y kubeadm=1.21.x-00 kubelet=1.21.x-00 kubectl=1.21.x-00 && sudo apt-mark hold kubeadm kubelet kubectl
 
 3. ### instalar o containerd ###
