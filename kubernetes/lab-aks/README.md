@@ -6,7 +6,7 @@
 3. A seguinte sequencia precisa ser utilizada
     * **env-config.sh**: Responsavel pelo setup da VNET com 2 subets (AKS e LinuxVMs) e uma NSG para filtrar o IP de origem para conexão SSH da primeira VM do setup IaaS (não aplicavel para o AKS).
     * **aks-config.sh**: Responsavel pelo setup de um cluster AKS
-    * **linux-vm.sh**: Resposavel pelo setup de VMs linus Ubuntu para instalação manual de um cluster Kubernetes
+    * **linux-vm.sh**: Resposavel pelo setup de VMs linux Ubuntu para instalação manual de um cluster Kubernetes
 
 ## Pre-requisitos
 1. Desktop ou Maquina virtual com um shell linux. Meu setup utiliza um desktop Windows 10 ou 11 com o Windows Subsystem for Linux instalado.
