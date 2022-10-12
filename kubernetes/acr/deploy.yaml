@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: appdemo
+  name: appdemo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appdemo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: appdemo
+    spec:
+      containers:
+      - image: eroilab.azurecr.io/header:v2
+        name: header
+        resources: {}
+status: {}
