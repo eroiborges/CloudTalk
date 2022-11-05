@@ -35,7 +35,7 @@ az network lb inbound-nat-rule create -g $vmrg --lb-name kube-lb -n kubeNatRule 
 
 az network nic ip-config inbound-nat-rule add -g $vmrg --nic-name $nicname -n $nicipconf --lb-name kube-lb --inbound-nat-rule kubeNatRule
 
-export publicipid=$(az network lb show -g $vmrg --name kube-lb -o tsv --query frontendIpConfigurations[].publicIpAddress.id)
+export publicipid=$(az network lb show -g $vmrg --name kube-lb -o tsv --query frontendIPConfigurations[].publicIPAddress.id)
 export sship=$(az resource show --ids $publicipid -o json --query properties.ipAddress | tr -d \")
 
 echo -n "SSH para o IP $sship"
