@@ -1,0 +1,49 @@
+## INSTALL kubectl
+## https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+alias k=kubectl
+
+$$ Install Helm
+## https://helm.sh/docs/intro/install/
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+## Add and Update Helm  NGINX Repo
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+
+## Option 1
+## Install private NGINX on the same Subnet as Workers 
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+    --version 4.6.1 \
+    --namespace ingress-controller \
+    --create-namespace \
+    --set controller.replicaCount=1 \
+    --set controller.nodeSelector."kubernetes\.io/os"=linux \
+    --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"=true \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
+    --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux
+
+## Option 2
+## Install NGINX private, using a dedicated subnet and defining a Load Balancer VIP.
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+    --version 4.6.1 \
+    --namespace ingress-controller \
+    --create-namespace \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"=true \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal-subnet"=LB-aks02 \
+    --set controller.service.loadBalancerIP=10.150.5.4 \
+    --set controller.replicaCount=3 \
+    --set controller.nodeSelector."kubernetes\.io/os"=linux \
+    --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
+    --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+
+
+## Make testes from Adm VM
+curl -k https://instance.mycloud.com.br/ --resolve instance.mycloud.com.br:443:10.150.5.4

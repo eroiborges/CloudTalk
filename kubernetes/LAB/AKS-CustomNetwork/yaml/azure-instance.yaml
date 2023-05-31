@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-instance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-instance
+  template:
+    metadata:
+      labels:
+        app: azure-instance
+    spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
+      containers:
+      - name: azure-instance
+        image: mcr.microsoft.com/azuredocs/aci-helloworld:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-instance
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: azure-instance
+---
