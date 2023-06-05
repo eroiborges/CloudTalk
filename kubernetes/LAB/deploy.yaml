@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nfs-poc
+  name: nfs-poc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-poc
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nfs-poc
+    spec:
+      containers:
+      - command:
+        - /bin/bash
+        - -c
+        - set -euo pipefail; while true; do echo $(date) >> /mnt/azurefile/outfile2;
+          sleep 1; done
+        volumeMounts:
+          - name: nfs-share
+            mountPath: /mnt/azurefile
+        image: nginx
+        name: nginx
+        resources: {}
+      volumes:
+      - name: nfs-share
+        persistentVolumeClaim:
+          claimName: nfs-azurefile
+status: {}

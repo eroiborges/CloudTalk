@@ -1,0 +1,16 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: private-azurefile-csi-nfs
+provisioner: file.csi.azure.com
+allowVolumeExpansion: true
+parameters:
+  resourceGroup: nfs-lab
+  storageAccount: eroistornfs
+  server: eroistornfs.file.core.windows.net 
+  shareName: nfs01
+  protocol: nfs
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+mountOptions:
+  - nconnect=4
