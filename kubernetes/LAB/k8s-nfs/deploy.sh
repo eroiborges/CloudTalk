@@ -31,16 +31,16 @@ az network vnet subnet create --address-prefixes 10.150.2.0/24 --name worker-aks
 az network vnet subnet create --address-prefixes 10.150.3.0/24 --name LB-aks01 --resource-group $rgname --vnet-name lab-vnet
 
 ## SubnetIDs
-podaks01sb=$(az network vnet subnet list --resource-group $rgname --vnet-name lab-vnet -o tsv --query "[?name=='pod-aks01'].id")
+#podaks01sb=$(az network vnet subnet list --resource-group $rgname --vnet-name lab-vnet -o tsv --query "[?name=='pod-aks01'].id")
 workeraks01sb=$(az network vnet subnet list --resource-group $rgname --vnet-name lab-vnet -o tsv --query "[?name=='worker-aks01'].id")
-lbaks01sb=$(az network vnet subnet list --resource-group $rgname --vnet-name lab-vnet -o tsv --query "[?name=='LB-aks01'].id")
+#lbaks01sb=$(az network vnet subnet list --resource-group $rgname --vnet-name lab-vnet -o tsv --query "[?name=='LB-aks01'].id")
 
 networkid=$(az network vnet show --resource-group $rgname --name lab-vnet --query "id" -o tsv)
 ## Remove previus AKS Credential on /tmp directory
 rm ./config.temp
 
 ## AKSs Cluster
-az aks create --resource-group $rgname --name lab-aks-01 --load-balancer-sku standard --nowait -y --node-count 2 --network-plugin azure --network-policy calico --node-osdisk-size 30 --node-vm-size Standard_A2_v2 --os-sku Ubuntu --vnet-subnet-id  $workeraks01sb --pod-subnet-id $podaks01sb --docker-bridge-address 172.17.0.1/16 --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --enable-disk-driver --enable-file-driver --enable-blob-driver --enable-snapshot-controller
+az aks create --resource-group $rgname --name lab-aks-01 --load-balancer-sku standard --node-count 2 --network-plugin azure --network-policy calico --node-osdisk-size 30 --node-vm-size Standard_B2s --os-sku Ubuntu --vnet-subnet-id  $workeraks01sb --dns-service-ip 10.2.0.10 --service-cidr 10.2.0.0/24 --enable-managed-identity
 ## AKS permission on VNET
 sleep 5
 aks01identity=$(az aks show --resource-group $rgname --name lab-aks-01 -o tsv --query "identity.principalId")
