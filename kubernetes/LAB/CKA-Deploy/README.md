@@ -1,5 +1,8 @@
 # instruções de uso
 
+## UPDATE
+05/06/2023: VM Size e OS atualizados para refletir os requisitos atuais das provas.
+
 ## Notas
 1. Existem 3 arquivos para configurar parte do setup. 
 2. Os scripts foram desenvolvidos apenas para este cenario de estudos e não possuem controles de automação.
@@ -79,9 +82,32 @@ Para logar novamente no SSH, basta executar o comando `ssh <ip do load balancer>
     sudo apt-get update && sudo apt-get install -y kubeadm=1.21.x-00 kubelet=1.21.x-00 kubectl=1.21.x-00 && sudo apt-mark hold kubeadm kubelet kubectl
 
 3. ### instalar o containerd ###
+    
+    1. opção 1 com gerenciador de pacotes:
     https://kubernetes.io/docs/setup/production-environment/container-runtimes/
     
     sudo apt-get update && sudo apt install containerd
+
+    2. opção 2 manual
+    https://github.com/containerd/containerd/blob/main/docs/getting-started.md
+
+    wget https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz
+    sudo tar Czxvf /usr/local containerd-1.7.2-linux-amd64.tar.gz
+    wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service
+    sudo mv containerd.service /usr/lib/systemd/system/
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now containerd
+    sudo systemctl status containerd
+
+    wget https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64
+    sudo install -m 755 runc.amd64 /usr/local/sbin/runc
+
+    sudo mkdir -p /etc/containerd/
+    containerd config default | sudo tee /etc/containerd/config.toml
+
+    sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+    sudo systemctl restart containerd
 
 4. ### Exemplo de Kubeadm init para network flannel
     sudo kubeadm init --control-plane-endpoint cluster01.k8slab.local:6443 --upload-certs --pod-network-cidr=10.244.0.0/16

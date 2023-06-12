@@ -20,7 +20,7 @@ export subnetid=$(az network vnet show -n aks-vnet -g $vnetrg --query "subnets[1
 az group create --name $vmrg --location $datacenter
 
 ## VMs
-az vm create --name $clustername --resource-group $vmrg --authentication-type ssh --count $nodes --enable-agent false --generate-ssh-keys --image UbuntuLTS --location $datacenter --size Standard_A2_v2  --subnet $subnetid --public-ip-address "" --nsg "" --query json
+az vm create --name $clustername --resource-group $vmrg --authentication-type ssh --count $nodes --enable-agent false --generate-ssh-keys --image Ubuntu2204 --location $datacenter --size Standard_B2s --storage-sku Standard_LRS  --subnet $subnetid --public-ip-address "" --nsg "" --query json
 
 ## LB
 az network lb create --name kube-lb --resource-group $vmrg --location $datacenter --backend-pool-name Kubevms --public-ip-address kube-ip --frontend-ip-name kube-lb-ip --sku Basic
